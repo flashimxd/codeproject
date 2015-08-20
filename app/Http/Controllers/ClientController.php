@@ -40,7 +40,7 @@ class ClientController extends Controller
      */
     public function show($id)
     {
-        //
+        return \codeproject\Client::find($id);
     }
 
     /**
