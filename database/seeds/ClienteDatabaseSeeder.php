@@ -11,8 +11,7 @@ class ClienteDatabaseSeeder extends Seeder
      */
     public function run()
     {
-        //
-        \codeproject\Client::truncate();
-        factory(\codeproject\Client::class, 10)->create();
+        \codeproject\Entities\Client::truncate();
+        factory(\codeproject\Entities\Client::class, 10)->create();
     }
 }
