@@ -3,10 +3,9 @@
 namespace codeproject\Http\Controllers;
 
 use Illuminate\Http\Request;
-
 use codeproject\Http\Requests;
-//use codeproject\Http\Controllers\Controller;
 use codeproject\Repositories\ClientRepository;
+use codeproject\Services\ClientService;
 
 class ClientController extends Controller
 {
@@ -20,10 +19,12 @@ class ClientController extends Controller
      * @var ClientRepository
      * */
     private $repository;
+    private $service;
 
-    public function __construct(ClientRepository $repository)
+    public function __construct(ClientRepository $repository, ClientService $service )
     {
         $this->repository = $repository;
+        $this->service    = $service;
     }
     public function index()
     {
@@ -39,7 +40,7 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        return $this->repository->create($request->all());
+        return $this->service->create($request->all());
     }
 
     /**
