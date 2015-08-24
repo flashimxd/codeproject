@@ -3,10 +3,14 @@
 namespace codeproject\Entities;
 
 use Illuminate\Database\Eloquent\Model;
+use Prettus\Repository\Contracts\Transformable;
+use Prettus\Repository\Traits\TransformableTrait;
 
-class Project extends Model
+class Project extends Model implements Transformable
 {
-    protected $fillable = [
+    use TransformableTrait;
+
+     protected $fillable = [
         'owner_id',
         'client_id',
         'name',
@@ -15,4 +19,5 @@ class Project extends Model
         'status',
         'due_date'
     ];
+
 }
