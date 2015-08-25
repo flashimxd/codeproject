@@ -12,10 +12,12 @@ class DatabaseSeeder extends Seeder
      */
     public function run()
     {
+        DB::statement("SET foreign_key_checks = 0");
         Model::unguard();
 
         $this->call(ClienteDatabaseSeeder::class);
         $this->call(ProjectDatabaseSeeder::class);
+        $this->call(ProjectNoteDatabaseSeeder::class);
 
         Model::reguard();
     }
