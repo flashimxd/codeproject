@@ -18,6 +18,8 @@ class DatabaseSeeder extends Seeder
         $this->call(ClienteDatabaseSeeder::class);
         $this->call(ProjectDatabaseSeeder::class);
         $this->call(ProjectNoteDatabaseSeeder::class);
+        $this->call(UserDatabaseSeeder::class);
+
 
         Model::reguard();
     }
