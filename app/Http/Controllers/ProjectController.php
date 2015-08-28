@@ -28,7 +28,7 @@ class ProjectController extends Controller
     }
     public function index()
     {
-        return $this->repository->with(['owner', 'client'])->all();
+        return $this->repository->findWhere(['owner_id' => \Authorizer::getResourceOwnerId()]);
     }
 
 
@@ -51,6 +51,10 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
+        if(!$this->checkProjectOwner($id)){
+            return ['error' => 'access_forbidden'];
+        }
+
         return $this->repository->with(['owner', 'client'])->find($id);
     }
 
@@ -74,6 +78,13 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $id_usu =  \Authorizer::getResourceOwnerId();
+        $id_project = $request->project;
+
+        if(!$this->repository->isOwner($id_project, $id_usu)){
+            return ['error' => 'access forbiden'];
+        }
+
         return $this->repository->update($request->all(), $id);
     }
 
@@ -85,6 +96,19 @@ class ProjectController extends Controller
      */
     public function destroy($id)
     {
-        $rs = $this->repository->find($id)->delete();
+        $id_usu =  \Authorizer::getResourceOwnerId();
+        $id_project = $request->project;
+
+        if(!$this->repository->isOwner($id_project, $id_usu)){
+            return ['error' => 'access forbiden'];
+        }
+
+        return $this->repository->find($id)->delete();
+    }
+
+    private function checkProjectOwner($id)
+    {
+        $id_usu =  \Authorizer::getResourceOwnerId();
+        return $this->repository->isOwner($id, $id_usu);
     }
 }
