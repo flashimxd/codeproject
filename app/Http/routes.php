@@ -27,8 +27,10 @@ Route::group(['middleware' => 'oauth'], function(){
 	Route::resource('project', 'ProjectController', ['except' => ['create', 'edit']]);
 
 	Route::group(['prefix' => 'project'], function(){
-
+		
+		Route::get('{id}/task', 'ProjectTaskController@index');
 		Route::get('{id}/note', 'ProjectNoteController@index');
+		Route::get('{id}/members', 'ProjectMembersController@index');
 		Route::post('{id}/note', 'ProjectNoteController@store');
 		Route::get('{id}/note/{id_note}', 'ProjectNoteController@show');
 		Route::put('{id}/note/{id_note}', 'ProjectNoteController@update');

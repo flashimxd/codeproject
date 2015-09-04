@@ -111,4 +111,11 @@ class ProjectController extends Controller
         $id_usu =  \Authorizer::getResourceOwnerId();
         return $this->repository->isOwner($id, $id_usu);
     }
+
+    private function checkProjectMember($id)
+    {
+        $id_usu =  \Authorizer::getResourceOwnerId();
+        return $this->repository->hasMember($id, $id_usu);
+    }
+
 }
