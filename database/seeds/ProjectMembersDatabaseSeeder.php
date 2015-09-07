@@ -12,6 +12,14 @@ class ProjectMembersDatabaseSeeder extends Seeder
     public function run()
     {
         \codeproject\Entities\ProjectMembers::truncate();
+
+        factory(\codeproject\Entities\ProjectMembers::class)->create(
+            [
+                'project_id' => 2,
+                'member_id' => 1
+            ]
+        );
+        
         factory(\codeproject\Entities\ProjectMembers::class, 10)->create();
     }
 }

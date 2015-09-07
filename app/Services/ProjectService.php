@@ -31,6 +31,9 @@ class ProjectService
         
     }
 
+    /**
+     * 
+     */
     public function update(array $dados, $id)
     {
          try{

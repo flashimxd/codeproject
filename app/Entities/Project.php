@@ -6,7 +6,6 @@ use Illuminate\Database\Eloquent\Model;
 use Prettus\Repository\Contracts\Transformable;
 use Prettus\Repository\Traits\TransformableTrait;
 use \codeproject\Entities\ProjectNote;
-use \codeproject\Entities\ProjectMembers;
 use \codeproject\Entities\Client;
 use \codeproject\Entities\User;
 
@@ -26,7 +25,7 @@ class Project extends Model implements Transformable
 
     public function members()
     {
-        return $this->hasMany(ProjectMembers::class);
+        return $this->belongsToMany(User::class, 'project_members', 'project_id', 'member_id');
     }
 
     public function note()

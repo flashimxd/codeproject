@@ -12,7 +12,7 @@ class ProjectMembers extends Model implements Transformable
 
     protected $fillable = [
     	'project_id',
-    	'usesr_id'
+    	'member_id'
     ];
 
 }
