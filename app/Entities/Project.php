@@ -8,6 +8,7 @@ use Prettus\Repository\Traits\TransformableTrait;
 use \codeproject\Entities\ProjectNote;
 use \codeproject\Entities\Client;
 use \codeproject\Entities\User;
+use \codeproject\Entities\ProjectFile;;
 
 class Project extends Model implements Transformable
 {
@@ -41,6 +42,11 @@ class Project extends Model implements Transformable
     public function owner()
     {
         return $this->hasOne(User::class);
+    }
+
+    public function files()
+    {
+        return $this->hasMany(ProjectFile::class);
     }
 
 }
