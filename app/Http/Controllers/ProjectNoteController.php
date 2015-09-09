@@ -26,8 +26,13 @@ class ProjectNoteController extends Controller
         $this->repository = $repository;
         $this->service    = $service;
     }
+    
     public function index($id)
     {
+        if(!$this->checkNoteOwner($id_project)){
+            return ['error' => 'access forbiden'];
+        }
+
         return $this->repository->findWhere(['project_id' => $id]);
     }
 
@@ -40,6 +45,10 @@ class ProjectNoteController extends Controller
      */
     public function store(Request $request)
     {
+        if(!$this->checkNoteOwner($id_project)){
+            return ['error' => 'access forbiden'];
+        }
+
         return $this->service->create($request->all());
     }
 
@@ -51,6 +60,10 @@ class ProjectNoteController extends Controller
      */
     public function show($id, $id_note)
     {
+        if(!$this->checkNoteOwner($id_project)){
+            return ['error' => 'access forbiden'];
+        }
+
         return $this->repository->findWhere(['project_id' => $id, 'id' => $id_note ]);
     }
 
@@ -74,6 +87,10 @@ class ProjectNoteController extends Controller
      */
     public function update(Request $request, $id, $id_note)
     {
+        if(!$this->checkNoteOwner($id)){
+            return ['error' => 'access forbiden'];
+        }
+
         return $this->repository->update($request->all(), $id_note);
     }
 
@@ -85,6 +102,15 @@ class ProjectNoteController extends Controller
      */
     public function destroy($id, $id_note)
     {
+        if(!$this->checkNoteOwner($id)){
+            return ['error' => 'access forbiden'];
+        }
+
         $rs = $this->repository->find($id_note)->delete();
+    }
+
+    private function checkNoteOwner($id)
+    {
+        return $this->repository->isOwner($id);
     }
 }

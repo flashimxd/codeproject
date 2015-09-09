@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use codeproject\Http\Requests;
 use codeproject\Http\Controllers\Controller;
 use codeproject\Repositories\ProjectMembersRepository;
+use codeproject\Services\ProjectMembersService;
 
 class ProjectMembersController extends Controller
 {
@@ -15,6 +16,19 @@ class ProjectMembersController extends Controller
      *
      * @return Response
      */
+
+    /**
+     * @var ClientRepository
+     * */
+    private $repository;
+    private $service;
+    //TODO criar service
+    public function __construct(ProjectMembersRepository $repository, ProjectMembersService $service )
+    {
+        $this->repository = $repository;
+        $this->service    = $service;
+    }
+
     public function index($id)
     {
         return $this->repository->findWhere(['project_id' => $id]);

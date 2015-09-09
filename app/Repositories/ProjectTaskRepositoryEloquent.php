@@ -30,4 +30,14 @@ class ProjectTaskRepositoryEloquent extends BaseRepository implements ProjectTas
     {
         $this->pushCriteria( app(RequestCriteria::class) );
     }
+
+    public function isOwner($id_project)
+    {
+        if(count($this->findWhere(['id_project' => $id_project))){
+            return true;
+        }
+
+        return false;
+
+    }
 }

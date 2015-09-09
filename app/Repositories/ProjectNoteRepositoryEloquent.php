@@ -29,4 +29,14 @@ class ProjectNoteRepositoryEloquent extends BaseRepository implements ProjectNot
     {
         $this->pushCriteria( app(RequestCriteria::class) );
     }
+
+    public function isOwner($id_project)
+    {
+        if(count($this->findWhere(['project_id' => $id_project))){
+            return true;
+        }
+
+        return false;
+
+    }
 }

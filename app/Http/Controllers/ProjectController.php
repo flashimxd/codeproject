@@ -97,9 +97,9 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         $id_usu =  \Authorizer::getResourceOwnerId();
-        $id_project = $request->project;
+        $id_project = $request->project->id_project;
 
-        if(!$this->repository->isOwner($id_project, $id_usu)){
+        if(!$this->checkProjectOwner($id_project)){
             return ['error' => 'access forbiden'];
         }
 

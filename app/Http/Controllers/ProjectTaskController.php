@@ -6,9 +6,23 @@ use Illuminate\Http\Request;
 
 use codeproject\Http\Requests;
 use codeproject\Http\Controllers\Controller;
+use codeproject\Repositories\ProjectTaskRepository;
+use codeproject\Services\ProjectTaskService;
 
 class ProjectTaskController extends Controller
 {
+
+    /**
+     * @var ProjectTaskRepository
+     * */
+    private $repository;
+    private $service;
+
+    public function __construct(ProjectTaskRepository $repository, ProjectTaskService $service )
+    {
+        $this->repository = $repository;
+        $this->service    = $service;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -16,6 +30,10 @@ class ProjectTaskController extends Controller
      */
     public function index($id)
     {
+        if(!$this->checkTaskOwner($id)){
+            return ['error' => 'access forbiden'];
+        }
+        
         return $this->repository->findWhere(['project_id' => $id]);
     }
 
@@ -84,4 +102,10 @@ class ProjectTaskController extends Controller
     {
         //
     }
+
+    private function checkTaskOwner($id)
+    {
+        return $this->repository->isOwner($id);
+    }
+
 }
