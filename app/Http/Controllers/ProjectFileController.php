@@ -31,7 +31,7 @@ class ProjectFileController extends Controller
     }
     public function index()
     {
-        return $this->repository->findWhere(['owner_id' => \Authorizer::getResourceOwnerId()]);
+        //
     }
 
 
@@ -61,42 +61,9 @@ class ProjectFileController extends Controller
      */
     public function show($id)
     {
-        if(!$this->checkProjectPermissions($id)){
-            return ['error' => 'access_forbidden'];
-        }
-
-        return $this->repository->find($id);
+       
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return Response
-     */
-    public function edit($id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  Request  $request
-     * @param  int  $id
-     * @return Response
-     */
-    public function update(Request $request, $id)
-    {
-        $id_usu =  \Authorizer::getResourceOwnerId();
-        $id_project = $request->project;
-
-        if(!$this->repository->isOwner($id_project, $id_usu)){
-            return ['error' => 'access forbiden'];
-        }
-
-        return $this->repository->update($request->all(), $id);
-    }
 
     /**
      * Remove the specified resource from storage.
@@ -106,35 +73,12 @@ class ProjectFileController extends Controller
      */
     public function destroy($id)
     {
-        $id_usu =  \Authorizer::getResourceOwnerId();
-        $id_project = $request->project;
-
-        if(!$this->repository->isOwner($id_project, $id_usu)){
-            return ['error' => 'access forbiden'];
-        }
-
-        return $this->repository->find($id)->delete();
+    
     }
 
-    private function checkProjectOwner($id)
+    private function checkProjectFileOwner($id)
     {
-        $id_usu =  \Authorizer::getResourceOwnerId();
-        return $this->repository->isOwner($id, $id_usu);
-    }
-
-    private function checkProjectMember($id)
-    {
-        $id_usu =  \Authorizer::getResourceOwnerId();
-        return $this->repository->hasMember($id, $id_usu);
-    }
-
-    private function checkProjectPermissions($id)
-    {
-        if($this->checkProjectOwner($id) or $this->checkProjectMember($id)){
-            return true;
-        }
-
-        return false;
+        return $this->repository->isFileOwner($id);
     }
 
 }

@@ -31,6 +31,10 @@ class ProjectMembersController extends Controller
 
     public function index($id)
     {
+
+        if(!$this->checkProjectMember($id)){
+            return ['error' => 'access_forbidden'];
+        }
         return $this->repository->findWhere(['project_id' => $id]);
     }
 
@@ -98,5 +102,11 @@ class ProjectMembersController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    private function checkProjectMember($id)
+    {
+        $id_usu =  \Authorizer::getResourceOwnerId();
+        return $this->repository->isMember($id, $id_usu);
     }
 }

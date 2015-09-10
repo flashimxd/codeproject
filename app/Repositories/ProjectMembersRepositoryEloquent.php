@@ -30,4 +30,13 @@ class ProjectMembersRepositoryEloquent extends BaseRepository implements Project
     {
         $this->pushCriteria( app(RequestCriteria::class) );
     }
+
+    public function isMember($id_project, $id_usu)
+    {
+         if(count($this->findWhere(['project_id' => $id_project, 'member_id' => $id_usu]))){
+            return true;
+        }
+
+        return false;
+    }
 }
