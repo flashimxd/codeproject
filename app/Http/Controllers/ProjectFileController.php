@@ -78,7 +78,7 @@ class ProjectFileController extends Controller
 
     private function checkProjectFileOwner($id)
     {
-        return $this->repository->isFileOwner($id);
+        return $this->repository->p($id);
     }
 
 }
