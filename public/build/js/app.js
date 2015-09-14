@@ -1,8 +1,22 @@
-var app = angular.module('app',['ngRoute','app.controllers', 'angular-oauth2']);
+var app = angular.module('app',['ngRoute','app.controllers', 'angular-oauth2', 'app.services']);
+
 angular.module('app.controllers',['angular-oauth2','ngMessages']);
+angular.module('app.services',['ngResource']);
 
+app.provider('appConfig', function(){
+    var config = {
+        baseUrl: 'http://localhost:8000'
+    };
 
-app.config(['$routeProvider', 'OAuthProvider',function($routeProvider, OAuthProvider){
+    return {
+        config:config,
+        $get: function(){
+            return config;
+        }
+    }
+});
+
+app.config(['$routeProvider', 'OAuthProvider','OAuthTokenProvider',function($routeProvider,OAuthProvider,OAuthTokenProvider){
     $routeProvider
         .when('/login',{
             'templateUrl': 'build/views/login.html',
@@ -12,6 +26,16 @@ app.config(['$routeProvider', 'OAuthProvider',function($routeProvider, OAuthProv
         .when('/home',{
             'templateUrl': 'build/views/home.html',
             'controller' : 'homeController'
+        })
+
+        .when('/clients',{
+            'templateUrl': 'build/views/client/list.html',
+            'controller' : 'ClientListController'
+        })
+
+         .when('/clients/new',{
+            'templateUrl': 'build/views/client/new.html',
+            'controller' : 'ClientNewController'
         });
 
     OAuthProvider.configure({
@@ -19,6 +43,13 @@ app.config(['$routeProvider', 'OAuthProvider',function($routeProvider, OAuthProv
       clientId: 'rnett',
       clientSecret: '123456', // optional
       grantPath: 'oauth/access_token'
+    });
+
+    OAuthTokenProvider.configure({
+        name: 'token',
+        options: {
+            secure: false
+        }
     });
 
 }]);

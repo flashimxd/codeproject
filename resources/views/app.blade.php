@@ -62,6 +62,7 @@
 
 <!-- Scripts -->
 @if(Config::get('app.debug'))
+<!-- Vendors -->
 <script src="{{asset('build/js/vendor/jquery.min.js')}}"></script>
 <script src="{{asset('build/js/vendor/angular.min.js')}}"></script>
 <script src="{{asset('build/js/vendor/angular-route.min.js')}}"></script>
@@ -74,10 +75,20 @@
 <script src="{{asset('build/js/vendor/query-string.js')}}"></script>
 <script src="{{asset('build/js/vendor/angular-oauth2.min.js')}}"></script>
 
-
+<!-- Main -->
 <script src="{{asset('build/js/app.js')}}"></script>
+
+<!-- Controllers -->
 <script src="{{asset('build/js/controllers/login.js')}}"></script>
 <script src="{{asset('build/js/controllers/home.js')}}"></script>
+<script src="{{asset('build/js/controllers/client/clientList.js')}}"></script>
+<script src="{{asset('build/js/controllers/client/clientNew.js')}}"></script>
+
+<!-- Services -->
+<script src="{{asset('build/js/services/client.js')}}"></script>
+
+<!-- Others -->
+
 @else
 <script src="{{elixir('js/all.js')}}"></script>
 @endif

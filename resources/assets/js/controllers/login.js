@@ -15,8 +15,6 @@ angular.module('app.controllers')
                 OAuth.getAccessToken($scope.user).then(function(){
                 $location.path('home');
                 }, function(data){
-                    //console.log(data.data.error_description);
-                    //alert('login invalido');
                     $scope.error.error = true;
                     $scope.error.message = data.data.error_description;
                 })
