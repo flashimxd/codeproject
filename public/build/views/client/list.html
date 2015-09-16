@@ -11,6 +11,7 @@
                                 <th>Responsible</th>
                                 <th>Email</th>
                                 <th>Phone</th>
+                                <th>Acao</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -19,6 +20,7 @@
                                 <td>{{client.responsible}}</td>
                                 <td>{{client.email}}</td>
                                 <td>{{client.phone}}</td>
+                                <td><a ng-href="#/clients/{{client.id}}/edit">Editar</a></td>
                             </tr>
                         </tbody>
                     </table>

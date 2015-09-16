@@ -36,7 +36,17 @@ app.config(['$routeProvider', 'OAuthProvider','OAuthTokenProvider',function($rou
          .when('/clients/new',{
             'templateUrl': 'build/views/client/new.html',
             'controller' : 'ClientNewController'
-        });
+        })
+
+         .when('/clients/:id/edit',{
+            'templateUrl': 'build/views/client/edit.html',
+            'controller' : 'ClientEditController'
+        })
+
+         .when('/clients/:id/remove',{
+            'templateUrl': 'build/views/client/remove.html',
+            'controller' : 'ClientRemoveController'
+        })
 
     OAuthProvider.configure({
       baseUrl: 'http://localhost:8000',
