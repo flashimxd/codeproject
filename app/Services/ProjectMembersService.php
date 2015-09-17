@@ -15,7 +15,7 @@ class ProjectMembersService
     }
 
     public function create(array $dados)
-    { 
+    {
         try{
             $this->validator->with($dados)->passesOrFail();
             return $this->repository->create($dados);
