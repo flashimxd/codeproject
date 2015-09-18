@@ -4,7 +4,7 @@ namespace codeproject\Http\Controllers;
 
 use Illuminate\Http\Request;
 use codeproject\Http\Requests;
-use codeproject\Repositories\ProjectRepository;
+use codeproject\Repositories\ProjectFileRepository;
 use codeproject\Services\ProjectService;
 use Storage;
 use League\Flysystem\Filesystem;
@@ -24,7 +24,7 @@ class ProjectFileController extends Controller
     private $repository;
     private $service;
 
-    public function __construct(ProjectRepository $repository, ProjectService $service )
+    public function __construct(ProjectFileRepository $repository, ProjectService $service )
     {
         $this->repository = $repository;
         $this->service    = $service;
@@ -42,7 +42,13 @@ class ProjectFileController extends Controller
      * @return Response
      */
     public function store(Request $request)
-    {
+    {   
+        /*
+        if(!$this->checkProjectPermissions($id)){
+            return ['error' => 'access_forbidden'];
+        }
+        */
+
         $file = $request->file('file');
         $extension = $file->getClientOriginalExtension();
 
@@ -78,7 +84,7 @@ class ProjectFileController extends Controller
 
     private function checkProjectFileOwner($id)
     {
-        return $this->repository->p($id);
+        return $this->repository->checkProjectFileOwner($id);
     }
 
 }

@@ -22,7 +22,7 @@ class ProjectMembersController extends Controller
      * */
     private $repository;
     private $service;
-    //TODO criar service
+
     public function __construct(ProjectMembersRepository $repository, ProjectMembersService $service )
     {
         $this->repository = $repository;
@@ -55,8 +55,8 @@ class ProjectMembersController extends Controller
      * @return Response
      */
     public function store(Request $request)
-    {
-        //
+    {//dd($request->member_id);
+        return $this->service->create($request->all());
     }
 
     /**
@@ -65,9 +65,13 @@ class ProjectMembersController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function show($id)
+    public function show($id, $id_member)
     {
-        //
+        if(!$this->checkProjectMember($id)){
+            return ['error' => 'access forbiden'];
+        }
+
+        return $this->repository->findWhere(['project_id' => $id, 'member_id' => $id_member ]);
     }
 
     /**

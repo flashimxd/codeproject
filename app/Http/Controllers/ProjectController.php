@@ -39,7 +39,7 @@ class ProjectController extends Controller
      * @return Response
      */
     public function store(Request $request)
-    {
+    {   
         return $this->service->create($request->all());
     }
 
@@ -66,7 +66,7 @@ class ProjectController extends Controller
      */
     public function edit($id)
     {
-        //
+
     }
 
     /**
@@ -120,7 +120,7 @@ class ProjectController extends Controller
 
     private function checkProjectPermissions($id)
     {
-        if($this->checkProjectOwner($id) or $this->checkProjectMember($id)){
+        if($this->checkProjectOwner($id) || $this->checkProjectMember($id)){
             return true;
         }
 
