@@ -510,7 +510,23 @@ app.provider('appConfig', function(){
     }
 });
 
-app.config(['$routeProvider', 'OAuthProvider','OAuthTokenProvider',function($routeProvider,OAuthProvider,OAuthTokenProvider){
+app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvider',function($routeProvider,$httpProvider,OAuthProvider,OAuthTokenProvider){
+    
+    $httpProvider.defaults.transformRequest = function(data, headers){
+        console.log(data);
+        debugger;
+        var headerContent = headers();
+        if(headerContent['content-type'] == 'application/json' || headerContent['content-type'] == 'text-json'){
+            var dataJson = JSON.parse(data);
+            if(dataJson.hasOwnProperty('data')){
+                dataJson = dataJson.data;
+            }
+            return dataJson;
+        }
+
+        return data;
+    };
+
     $routeProvider
         .when('/login',{
             'templateUrl': 'build/views/login.html',
@@ -527,27 +543,42 @@ app.config(['$routeProvider', 'OAuthProvider','OAuthTokenProvider',function($rou
             'controller' : 'ClientListController'
         })
 
-         .when('/clients/new',{
+        .when('/clients/new',{
             'templateUrl': 'build/views/client/new.html',
             'controller' : 'ClientNewController'
         })
 
-         .when('/clients/:id/edit',{
+        .when('/clients/:id/edit',{
             'templateUrl': 'build/views/client/edit.html',
             'controller' : 'ClientEditController'
         })
 
-         .when('/clients/:id/remove',{
+        .when('/clients/:id/remove',{
             'templateUrl': 'build/views/client/remove.html',
             'controller' : 'ClientRemoveController'
         })
 
+        .when('/clients/:id',{
+            'templateUrl': 'build/views/client/show.html',
+            'controller' : 'ClientShowController'
+        })
+        /*
+    OAuthProvider.configure({
+      baseUrl: 'http://localhost:8000',
+      clientId: 'appid',
+      clientSecret: 'appsecret', // optional
+      grantPath: 'oauth/access_token'
+    });
+  */
+
+    //home config
     OAuthProvider.configure({
       baseUrl: 'http://localhost:8000',
       clientId: 'rnett',
       clientSecret: '123456', // optional
       grantPath: 'oauth/access_token'
     });
+    
 
     OAuthTokenProvider.configure({
         name: 'token',
@@ -642,5 +673,20 @@ angular.module('app.controllers')
             }
         }
         
+    }]);
+angular.module('app.controllers')
+    .controller('ClientRemoveController', ['$scope', 'Client', '$location','$routeParams', function($scope, Client, $location, $routeParams){
+        $scope.client = Client.get({id: $routeParams.id});
+
+        $scope.remove = function(){
+            $scope.client.$delete().then(function(){
+                $location.path('/clients');
+            });
+        }
+        
+    }]);
+angular.module('app.controllers')
+    .controller('ClientShowController', ['$scope', 'Client', '$location','$routeParams', function($scope, Client, $location, $routeParams){
+        $scope.client = Client.get({id: $routeParams.id});
     }]);
 //# sourceMappingURL=all.js.map

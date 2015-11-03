@@ -32,7 +32,7 @@ class ProjectNoteRepositoryEloquent extends BaseRepository implements ProjectNot
 
     public function isOwner($id_project)
     {
-        if(count($this->findWhere(['project_id' => $id_project))){
+        if(count($this->findWhere(['project_id' => $id_project]))){
             return true;
         }
 

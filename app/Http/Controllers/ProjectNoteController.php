@@ -27,13 +27,13 @@ class ProjectNoteController extends Controller
         $this->service    = $service;
     }
     
-    public function index($id)
+    public function index($id_project)
     {
         if(!$this->checkNoteOwner($id_project)){
             return ['error' => 'access forbiden'];
         }
 
-        return $this->repository->findWhere(['project_id' => $id]);
+        return $this->repository->findWhere(['project_id' => $id_project]);
     }
 
 
