@@ -44,11 +44,15 @@ class ProjectNoteController extends Controller
      * @return Response
      */
     public function store(Request $request)
-    {
+    {   
+        var_dump($request->all()); exit('e isso');    
+        //exit('dsadsa');//var_dump($request->all()); exit;
+        //dd($request->all());
+        /*
         if(!$this->checkNoteOwner($id_project)){
             return ['error' => 'access forbiden'];
         }
-
+        */
         return $this->service->create($request->all());
     }
 

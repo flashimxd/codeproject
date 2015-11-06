@@ -1,10 +1,13 @@
 angular.module('app.controllers')
-    .controller('ProjectNoteNewController', ['$scope', 'Client', '$location', function($scope, Client, $location){
-        $scope.client = new Client();
+    .controller('ProjectNoteNewController', ['$scope', '$routeParams','ProjectNote', '$location', function($scope,$routeParams, ProjectNote, $location){
+        $scope.projectNote            = new ProjectNote();
+        $scope.projectNote.project_id = $routeParams.id;
         $scope.save = function(){
+            //console.log('save'); debugger;
             if($scope.formCadastro.$valid){
-                $scope.client.$save().then(function(){
-                    $location.path('/clients');
+
+                $scope.projectNote.$save({id: $routeParams.id}).then(function(){
+                    $location.path('/project/'+$routeParams.id+'/notes');
                 });
             }
         }
