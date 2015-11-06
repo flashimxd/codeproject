@@ -544,10 +544,20 @@ app.config(['$routeProvider', 'OAuthProvider','OAuthTokenProvider',function($rou
 
     OAuthProvider.configure({
       baseUrl: 'http://localhost:8000',
+      clientId: 'appid',
+      clientSecret: 'appsecret', // optional
+      grantPath: 'oauth/access_token'
+    });
+  
+
+    /* home config
+    OAuthProvider.configure({
+      baseUrl: 'http://localhost:8000',
       clientId: 'rnett',
       clientSecret: '123456', // optional
       grantPath: 'oauth/access_token'
     });
+    */
 
     OAuthTokenProvider.configure({
         name: 'token',
@@ -640,6 +650,17 @@ angular.module('app.controllers')
                     $location.path('/clients');
                 });
             }
+        }
+        
+    }]);
+angular.module('app.controllers')
+    .controller('ClientRemoveController', ['$scope', 'Client', '$location','$routeParams', function($scope, Client, $location, $routeParams){
+        $scope.client = Client.get({id: $routeParams.id});
+
+        $scope.remove = function(){
+            $scope.client.$delete().then(function(){
+                $location.path('/clients');
+            });
         }
         
     }]);

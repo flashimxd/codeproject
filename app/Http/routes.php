@@ -33,6 +33,7 @@ Route::group(['middleware' => 'oauth'], function(){
 		Route::get('{id}/members', 'ProjectMembersController@index');
 		Route::post('{id}/members', 'ProjectMembersController@store'); 
 		Route::get('{id}/members/{id_member}', 'ProjectMemberController@show');
+		
 		//note route
 		Route::get('{id}/note', 'ProjectNoteController@index'); 
 		Route::post('{id}/note', 'ProjectNoteController@store');
