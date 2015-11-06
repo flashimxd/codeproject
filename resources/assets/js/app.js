@@ -16,7 +16,21 @@ app.provider('appConfig', function(){
     }
 });
 
-app.config(['$routeProvider', 'OAuthProvider','OAuthTokenProvider',function($routeProvider,OAuthProvider,OAuthTokenProvider){
+app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvider',function($routeProvider,$httpProvider,OAuthProvider,OAuthTokenProvider){
+    
+    $httpProvider.defaults.transformRequest = function(data, headers){
+        var headerContent = headers();
+        if(headerContent['content-type'] == 'application/json' || headerContent['content-type'] == 'text-json'){
+            var dataJson = JSON.parse(data);
+            if(dataJson.hasOwnProperty('data')){
+                dataJson = dataJson.data;
+            }
+            return dataJson;
+        }
+
+        return data;
+    };
+
     $routeProvider
         .when('/login',{
             'templateUrl': 'build/views/login.html',
@@ -33,37 +47,69 @@ app.config(['$routeProvider', 'OAuthProvider','OAuthTokenProvider',function($rou
             'controller' : 'ClientListController'
         })
 
-         .when('/clients/new',{
+        .when('/clients/new',{
             'templateUrl': 'build/views/client/new.html',
             'controller' : 'ClientNewController'
         })
 
-         .when('/clients/:id/edit',{
+        .when('/clients/:id/edit',{
             'templateUrl': 'build/views/client/edit.html',
             'controller' : 'ClientEditController'
         })
 
-         .when('/clients/:id/remove',{
+        .when('/clients/:id/remove',{
             'templateUrl': 'build/views/client/remove.html',
             'controller' : 'ClientRemoveController'
         })
 
+        .when('/clients/:id',{
+            'templateUrl': 'build/views/client/show.html',
+            'controller' : 'ClientShowController'
+        })
+
+        //Project note
+        .when('/project/:id/notes',{
+            'templateUrl': 'build/views/project-note/list.html',
+            'controller' : 'ProjectNoteListController'
+        })
+
+        .when('/project/:id/notes/:idNote/show',{
+            'templateUrl': 'build/views/project-note/show.html',    
+            'controller' : 'ProjectNoteShowController'
+        })
+
+        .when('/project/:id/notes/new',{
+            'templateUrl': 'build/views/project-note/new.html',
+            'controller' : 'ProjectNoteNewController'
+        })
+
+        .when('/project/:id/notes/:idNote/edit',{
+            'templateUrl': 'build/views/project-note/edit.html',
+            'controller' : 'ProjectNoteEditController'
+        })
+
+        .when('/project/:id/notes/:idNote/remove',{
+            'templateUrl': 'build/views/project-note/remove.html',
+            'controller' : 'ProjectNoteRemoveController'
+        });
+
+        /*
     OAuthProvider.configure({
       baseUrl: 'http://localhost:8000',
       clientId: 'appid',
       clientSecret: 'appsecret', // optional
       grantPath: 'oauth/access_token'
     });
-  
+  */
 
-    /* home config
+    //home config
     OAuthProvider.configure({
       baseUrl: 'http://localhost:8000',
       clientId: 'rnett',
       clientSecret: '123456', // optional
       grantPath: 'oauth/access_token'
     });
-    */
+    
 
     OAuthTokenProvider.configure({
         name: 'token',
