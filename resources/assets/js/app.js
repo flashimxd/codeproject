@@ -17,11 +17,15 @@ app.provider('appConfig', function(){
 });
 
 app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvider', 'appConfigProvider',function($routeProvider,$httpProvider,OAuthProvider,OAuthTokenProvider, appConfigProvider){
-    /*
+    
+    //debugger;
+
     $httpProvider.defaults.transformRequest = function(data, headers){
+        console.log(data, headers);
         var headerContent = headers();
         if(headerContent['content-type'] == 'application/json' || headerContent['content-type'] == 'text-json'){
             var dataJson = JSON.parse(data);
+            console.log(dataJson); debugger;
             if(dataJson.hasOwnProperty('data')){
                 dataJson = dataJson.data;
             }
@@ -30,7 +34,7 @@ app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvide
 
         return data;
     };
-    */
+    
 
     $routeProvider
         .when('/login',{
