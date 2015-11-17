@@ -2,7 +2,7 @@
 namespace codeproject\Transformers;
 use codeproject\Entities\Client;
 use League\Fractal\TransformerAbstract;
-use codeproject\Transformers\ClientTransformer;
+
 class ClientTransformer extends TransformerAbstract
 {
 

@@ -45,14 +45,15 @@ class ProjectNoteController extends Controller
      */
     public function store(Request $request)
     {   
-        var_dump($request->all()); exit('e isso');    
+          
         //exit('dsadsa');//var_dump($request->all()); exit;
         //dd($request->all());
-        /*
+        $id_project = $request->all()['project_id'];
+
         if(!$this->checkNoteOwner($id_project)){
             return ['error' => 'access forbiden'];
         }
-        */
+        
         return $this->service->create($request->all());
     }
 
@@ -64,11 +65,18 @@ class ProjectNoteController extends Controller
      */
     public function show($id, $id_note)
     {
-        if(!$this->checkNoteOwner($id_project)){
+        if(!$this->checkNoteOwner($id)){
             return ['error' => 'access forbiden'];
         }
 
-        return $this->repository->findWhere(['project_id' => $id, 'id' => $id_note ]);
+        $result = $this->repository->findWhere(['project_id' => $id, 'id' => $id_note ]);
+
+        if(isset($result['data']) && count($result['data']) == 1){
+            $result['data'] = $result['data'][0];
+        }
+
+
+        return $result;//$this->repository->findWhere(['project_id' => $id, 'id' => $id_note ]);
     }
 
     /**

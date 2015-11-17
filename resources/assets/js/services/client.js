@@ -3,7 +3,7 @@ angular.module('app.services')
         return $resource(appConfig.baseUrl+'/client/:id',{id:'@id'},{
             update: {
                 method: 'PUT'
-            }/*,
+            },
             query: {
                 method: 'GET',
                 isArray: true,
@@ -12,6 +12,5 @@ angular.module('app.services')
                     return returnJson.data;
                 }
             }
-            */
         });
     }]);

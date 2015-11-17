@@ -18,11 +18,11 @@ app.provider('appConfig', function(){
 
 app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvider', 'appConfigProvider',function($routeProvider,$httpProvider,OAuthProvider,OAuthTokenProvider, appConfigProvider){
     
-    //debugger;
 
     $httpProvider.defaults.transformRequest = function(data, headers){
-        console.log(data, headers);
+        console.log(data, headers); debugger;
         var headerContent = headers();
+        console.log(headerContent); debugger;
         if(headerContent['content-type'] == 'application/json' || headerContent['content-type'] == 'text-json'){
             var dataJson = JSON.parse(data);
             console.log(dataJson); debugger;
