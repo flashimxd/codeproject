@@ -19,13 +19,13 @@ app.provider('appConfig', function(){
 app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvider', 'appConfigProvider',function($routeProvider,$httpProvider,OAuthProvider,OAuthTokenProvider, appConfigProvider){
     
 
-    $httpProvider.defaults.transformRequest = function(data, headers){
-        console.log(data, headers); debugger;
+    $httpProvider.defaults.transformResponse = function(data, headers){
+        //console.log(data, headers); debugger;
         var headerContent = headers();
-        console.log(headerContent); debugger;
+        //console.log(headerContent); debugger;
         if(headerContent['content-type'] == 'application/json' || headerContent['content-type'] == 'text-json'){
             var dataJson = JSON.parse(data);
-            console.log(dataJson); debugger;
+            //console.log(dataJson); debugger;
             if(dataJson.hasOwnProperty('data')){
                 dataJson = dataJson.data;
             }

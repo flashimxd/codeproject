@@ -97,11 +97,14 @@ class ProjectNoteController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function update(Request $request, $id, $id_note)
+    public function update(Request $request, $id_note)
     {
-        if(!$this->checkNoteOwner($id)){
+        $id_project = $request->all()['project_id'];
+
+        if(!$this->checkNoteOwner($id_project)){
             return ['error' => 'access forbiden'];
         }
+        
 
         return $this->repository->update($request->all(), $id_note);
     }
@@ -112,13 +115,20 @@ class ProjectNoteController extends Controller
      * @param  int  $id
      * @return Response
      */
-    public function destroy($id, $id_note)
-    {
-        if(!$this->checkNoteOwner($id)){
+    public function destroy($id_note)
+    {     
+    /* 
+        dd($id_note);
+        //$id_project = $request->all()['project_id'];
+
+        if(!$this->checkNoteOwner($id_project)){
             return ['error' => 'access forbiden'];
         }
+        */
+        $this->repository->skipPresenter()->find($id_note)->delete();
 
-        $rs = $this->repository->find($id_note)->delete();
+        //$rs = $this->repository->find($id_note)->delete();
+        //return $rs;
     }
 
     private function checkNoteOwner($id)

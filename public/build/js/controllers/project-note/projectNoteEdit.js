@@ -4,10 +4,12 @@ angular.module('app.controllers')
             id: $routeParams.id,
             idNote: $routeParams.idNote
         });
+
         $scope.save = function(){
+
             if($scope.formCadastro.$valid){
 
-                ProjectNote.update({id: $scope.projectNote.id},$scope.projectNote,
+                ProjectNote.update({id: null, idNote: $scope.projectNote.id},$scope.projectNote,
                 function(){
                     $location.path('/project/'+$routeParams.id+'/notes');
                 });
