@@ -1,11 +1,19 @@
-var app = angular.module('app',['ngRoute','app.controllers', 'angular-oauth2', 'app.services']);
+var app = angular.module('app',['ngRoute','app.controllers', 'angular-oauth2', 'app.services', 'app.filters']);
 
 angular.module('app.controllers',['angular-oauth2','ngMessages']);
 angular.module('app.services',['ngResource']);
+angular.module('app.filters',[]);
 
 app.provider('appConfig', function(){
     var config = {
-        baseUrl: 'http://localhost:8000'
+        baseUrl: 'http://localhost:8000',
+        project: {
+            status: [
+                {value: 1 ,  label:'Não iniciado'},
+                {value: 2,   label: 'Iniciado'},
+                {value: 3,   label: 'Concluído'}
+            ]
+        }
     };
 
     return {
@@ -18,14 +26,12 @@ app.provider('appConfig', function(){
 
 app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvider', 'appConfigProvider',function($routeProvider,$httpProvider,OAuthProvider,OAuthTokenProvider, appConfigProvider){
     
-
+    $httpProvider.defaults.headers.post['content-type'] = 'application/x-www-form-urlenconded;charset=utf-8';
+    $httpProvider.defaults.headers.put['content-type'] = 'application/x-www-form-urlenconded;charset=utf-8'; 
     $httpProvider.defaults.transformResponse = function(data, headers){
-        //console.log(data, headers); debugger;
         var headerContent = headers();
-        //console.log(headerContent); debugger;
         if(headerContent['content-type'] == 'application/json' || headerContent['content-type'] == 'text-json'){
             var dataJson = JSON.parse(data);
-            //console.log(dataJson); debugger;
             if(dataJson.hasOwnProperty('data')){
                 dataJson = dataJson.data;
             }
@@ -70,6 +76,28 @@ app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvide
         .when('/clients/:id',{
             'templateUrl': 'build/views/client/show.html',
             'controller' : 'ClientShowController'
+        })
+
+        //project
+
+        .when('/projects',{
+            'templateUrl': 'build/views/project/list.html',
+            'controller' : 'ProjectListController'
+        })
+
+        .when('/projects/new',{
+            'templateUrl': 'build/views/project/new.html',
+            'controller' : 'ProjectNewController'
+        })
+
+        .when('/projects/:id/edit',{
+            'templateUrl': 'build/views/project/edit.html',
+            'controller' : 'ProjectEditController'
+        })
+
+        .when('/projects/:id/remove',{
+            'templateUrl': 'build/views/project/remove.html',
+            'controller' : 'ProjectRemoveController'
         })
 
         //Project note

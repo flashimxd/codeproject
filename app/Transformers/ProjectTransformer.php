@@ -9,6 +9,7 @@ class ProjectTransformer extends TransformerAbstract
 
 	public function transform(Project $project)
 	{
+		dd($project);
 		return [
 			'project_id'  => $project->id,
 			'project'     => $project->name,

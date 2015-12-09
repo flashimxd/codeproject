@@ -8,7 +8,7 @@ class ProjectValidator extends LaravelValidator
         'owner_id'    => 'required| integer',
         'client_id'   => 'required| integer',
         'name'        => 'required|max:255',
-        'progrress'   => 'required|',
+        'progress'    => 'required|',
         'status'      => 'required',
         'due_date'    => 'required| date',
     ];
