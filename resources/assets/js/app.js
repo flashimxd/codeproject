@@ -9,10 +9,24 @@ app.provider('appConfig', function(){
         baseUrl: 'http://localhost:8000',
         project: {
             status: [
-                {value: 1 ,  label:'Não iniciado'},
+                {value: 1 ,  label: 'Não iniciado'},
                 {value: 2,   label: 'Iniciado'},
                 {value: 3,   label: 'Concluído'}
             ]
+        },
+        utils: {
+            transformResponse: function(data, headers){
+                var headerContent = headers();
+                if(headerContent['content-type'] == 'application/json' || headerContent['content-type'] == 'text-json'){
+                    var dataJson = JSON.parse(data);
+                    if(dataJson.hasOwnProperty('data')){
+                        dataJson = dataJson.data;
+                    }
+                    return dataJson;
+                }
+
+                return data;
+            }
         }
     };
 
@@ -26,20 +40,10 @@ app.provider('appConfig', function(){
 
 app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvider', 'appConfigProvider',function($routeProvider,$httpProvider,OAuthProvider,OAuthTokenProvider, appConfigProvider){
     
+    //add urlenconded
     $httpProvider.defaults.headers.post['content-type'] = 'application/x-www-form-urlenconded;charset=utf-8';
     $httpProvider.defaults.headers.put['content-type'] = 'application/x-www-form-urlenconded;charset=utf-8'; 
-    $httpProvider.defaults.transformResponse = function(data, headers){
-        var headerContent = headers();
-        if(headerContent['content-type'] == 'application/json' || headerContent['content-type'] == 'text-json'){
-            var dataJson = JSON.parse(data);
-            if(dataJson.hasOwnProperty('data')){
-                dataJson = dataJson.data;
-            }
-            return dataJson;
-        }
-
-        return data;
-    };
+    $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
     
 
     $routeProvider

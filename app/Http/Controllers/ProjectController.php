@@ -40,6 +40,7 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {   
+
         return $this->service->create($request->all());
     }
 
@@ -51,9 +52,15 @@ class ProjectController extends Controller
      */
     public function show($id)
     {
+        //dd($id);
+        
         if(!$this->checkProjectPermissions($id)){
             return ['error' => 'access_forbidden'];
         }
+    
+
+       //dd($id);
+        //dd($this->repository->find($id));
 
         return $this->repository->find($id);
     }
@@ -80,11 +87,12 @@ class ProjectController extends Controller
     {
         $id_usu =  \Authorizer::getResourceOwnerId();
         $id_project = $request->project;
-
+        /*
         if(!$this->repository->isOwner($id_project, $id_usu)){
             return ['error' => 'access forbiden'];
         }
-
+        */
+        //dd($id, $request->all());
         return $this->repository->update($request->all(), $id);
     }
 
