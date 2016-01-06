@@ -22,6 +22,7 @@ app.provider('appConfig', function(){
                     if(dataJson.hasOwnProperty('data')){
                         dataJson = dataJson.data;
                     }
+
                     return dataJson;
                 }
 
@@ -40,12 +41,11 @@ app.provider('appConfig', function(){
 
 app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvider', 'appConfigProvider',function($routeProvider,$httpProvider,OAuthProvider,OAuthTokenProvider, appConfigProvider){
     
-    //add urlenconded
-    $httpProvider.defaults.headers.post['content-type'] = 'application/x-www-form-urlenconded;charset=utf-8';
-    $httpProvider.defaults.headers.put['content-type'] = 'application/x-www-form-urlenconded;charset=utf-8'; 
+    //add urlenconded    
+    $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
     
-
     $routeProvider
         .when('/login',{
             'templateUrl': 'build/views/login.html',

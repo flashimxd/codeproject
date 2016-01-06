@@ -26,6 +26,7 @@ class ProjectController extends Controller
         $this->repository = $repository;
         $this->service    = $service;
     }
+
     public function index()
     {
         return $this->repository->with('client')->findWhere(['owner_id' => \Authorizer::getResourceOwnerId()]);
@@ -40,7 +41,7 @@ class ProjectController extends Controller
      */
     public function store(Request $request)
     {   
-
+        dd($request->all());
         return $this->service->create($request->all());
     }
 
