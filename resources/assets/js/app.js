@@ -1,4 +1,5 @@
-var app = angular.module('app',['ngRoute','app.controllers', 'angular-oauth2', 'app.services', 'app.filters']);
+var app = angular.module('app',['ngRoute','app.controllers', 'angular-oauth2', 'app.services', 'app.filters', 'ui.bootstrap.typeahead',
+    'ui.bootstrap.tpls', 'ui.bootstrap.datepicker', 'ngFileUpload']);
 
 angular.module('app.controllers',['angular-oauth2','ngMessages']);
 angular.module('app.services',['ngResource']);
@@ -40,10 +41,11 @@ app.provider('appConfig', function(){
 });
 
 app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvider', 'appConfigProvider',function($routeProvider,$httpProvider,OAuthProvider,OAuthTokenProvider, appConfigProvider){
-    
+
+
     //add urlenconded    
     $httpProvider.defaults.headers.post['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
-    $httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
+    //$httpProvider.defaults.headers.put['Content-Type'] = 'application/x-www-form-urlencoded;charset=utf-8';
     $httpProvider.defaults.transformResponse = appConfigProvider.config.utils.transformResponse;
     
     $routeProvider
@@ -105,29 +107,51 @@ app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvide
         })
 
         //Project note
-        .when('/project/:id/notes',{
-            'templateUrl': 'build/views/project-note/list.html',
+        .when('/project/:id/files',{
+            'templateUrl': 'build/views/project-file/list.html',
             'controller' : 'ProjectNoteListController'
         })
 
-        .when('/project/:id/notes/:idNote/show',{
-            'templateUrl': 'build/views/project-note/show.html',    
+        .when('/project/:id/notes/:idfile/show',{
+            'templateUrl': 'build/views/project-file/show.html',
             'controller' : 'ProjectNoteShowController'
         })
 
-        .when('/project/:id/notes/new',{
-            'templateUrl': 'build/views/project-note/new.html',
+        .when('/project/:id/files/new',{
+            'templateUrl': 'build/views/project-file/new.html',
             'controller' : 'ProjectNoteNewController'
         })
 
-        .when('/project/:id/notes/:idNote/edit',{
-            'templateUrl': 'build/views/project-note/edit.html',
+        .when('/project/:id/files/:idNote/edit',{
+            'templateUrl': 'build/views/project-file/edit.html',
             'controller' : 'ProjectNoteEditController'
         })
 
-        .when('/project/:id/notes/:idNote/remove',{
+        .when('/project/:id/files/:idNote/remove',{
             'templateUrl': 'build/views/project-note/remove.html',
             'controller' : 'ProjectNoteRemoveController'
+        })
+
+
+        /*Project file*/
+        .when('/project/:id/files',{
+            'templateUrl': 'build/views/project-note/list.html',
+            'controller' : 'ProjectFileListController'
+        })
+
+        .when('/project/:id/files/new',{
+            'templateUrl': 'build/views/project-note/new.html',
+            'controller' : 'ProjectFileNewController'
+        })
+
+        .when('/project/:id/files/:idFile/edit',{
+            'templateUrl': 'build/views/project-note/edit.html',
+            'controller' : 'ProjectFileEditController'
+        })
+
+        .when('/project/:id/files/:idFile/remove',{
+            'templateUrl': 'build/views/project-note/remove.html',
+            'controller' : 'ProjectFileRemoveController'
         });
 
     
@@ -172,6 +196,6 @@ app.run(['$rootScope', '$window', 'OAuth', function($rootScope, $window, OAuth) 
       }
 
       // Redirect to `/login` with the `error_reason`.
-      return $window.location.href = '/login?error_reason=' + rejection.data.error;
+      return $window.location.href = '/#login?error_reason=' + rejection.data.error;
     });
   }]);

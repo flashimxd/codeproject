@@ -5,33 +5,25 @@ namespace codeproject\Http\Controllers;
 use Illuminate\Http\Request;
 use codeproject\Http\Requests;
 use codeproject\Repositories\ProjectFileRepository;
-use codeproject\Services\ProjectService;
+use codeproject\Services\ProjectFileService;
 use Storage;
 use League\Flysystem\Filesystem;
 use File;
 
 class ProjectFileController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return Response
-     */
 
-    /**
-     * @var ClientRepository
-     * */
     private $repository;
     private $service;
 
-    public function __construct(ProjectFileRepository $repository, ProjectService $service )
+    public function __construct(ProjectFileRepository $repository, ProjectFileService $service )
     {
         $this->repository = $repository;
         $this->service    = $service;
     }
-    public function index()
+    public function index($id)
     {
-        //
+        return $this->repository->findWhere(['project_id' => $id]);
     }
 
 
@@ -42,13 +34,7 @@ class ProjectFileController extends Controller
      * @return Response
      */
     public function store(Request $request)
-    {   
-        /*
-        if(!$this->checkProjectPermissions($id)){
-            return ['error' => 'access_forbidden'];
-        }
-        */
-
+    {
         $file = $request->file('file');
         $extension = $file->getClientOriginalExtension();
 
@@ -56,7 +42,7 @@ class ProjectFileController extends Controller
                     'project_id' => $request->project_id, 'description' => $request->description
                 ];
 
-        $this->service->createFile($data);
+        $this->service->create($data);
     }
 
     /**
@@ -67,7 +53,28 @@ class ProjectFileController extends Controller
      */
     public function show($id)
     {
+        if(!$this->service->checkProjectPermissions($id)){
+            return ['error' => 'access_forbidden'];
+        }
+
+        return $this->repository->find($id);
        
+    }
+
+    /**
+    * Update the specified resource in storage.
+    *
+    * @param  Request  $request
+    * @param  int  $id
+    * @return Response
+    */
+    public function update(Request $request, $id)
+    {
+        if($this->service->checkProjectOwner($id)  == false){
+            return ['error' => 'access forbiden'];
+        }
+
+        return $this->service->update($request->all(), $id);
     }
 
 
@@ -79,12 +86,30 @@ class ProjectFileController extends Controller
      */
     public function destroy($id)
     {
-    
+
+        if($this->service->checkProjectOwner($id)  == false){
+            return ['error' => 'access forbiden'];
+        }
+
+        if($this->repository->skipPresenter()->find($id)->delete())
+            return array('success' => true);
+
+        return array('success' => false);
     }
 
-    private function checkProjectFileOwner($id)
+    /**
+     * Envia um arquivo p download
+     *
+     * @param  int  $id
+     * @return Response
+     */
+    public function showFile($id)
     {
-        return $this->repository->checkProjectFileOwner($id);
+        if(!$this->service->checkProjectPermissions($id)){
+            return ['error' => 'access_forbidden'];
+        }
+
+        return response()->download($this->service->getFilePath($id));
     }
 
 }

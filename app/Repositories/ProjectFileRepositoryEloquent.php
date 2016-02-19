@@ -2,6 +2,8 @@
 
 namespace codeproject\Repositories;
 
+use codeproject\Entities\ProjectFile;
+use codeproject\Presenters\ProjectFilePresenter;
 use Prettus\Repository\Eloquent\BaseRepository;
 use Prettus\Repository\Criteria\RequestCriteria;
 use codeproject\Repositories\ProjectFilesRepository;
@@ -39,5 +41,10 @@ class ProjectFileRepositoryEloquent extends BaseRepository implements ProjectFil
         }
 
         return false;
+    }
+
+    public function presenter()
+    {
+        return ProjectFilePresenter::class;
     }
 }

@@ -1,11 +1,8 @@
 <?php
 namespace codeproject\Services;
 use codeproject\Repositories\ProjectRepository;
-use codeproject\Repositories\ProjectMembersRepository;
 use codeproject\Validators\ProjectValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
-use Illuminate\Contracts\Filesystem\Factory as Storage;
-use Illuminate\Filesystem\Filesystem;
 
 class ProjectService
 {
@@ -13,13 +10,10 @@ class ProjectService
     protected $validator;
     protected $repositoryProMemb;
 
-    public function __construct(ProjectRepository $repository, ProjectValidator $validator, ProjectMembersRepository $repositoryProMemb, Storage $storage, Filesystem $filesystem)
+    public function __construct(ProjectRepository $repository, ProjectValidator $validator)
     {
         $this->repository         = $repository;
         $this->validator          = $validator;
-        $this->repositoryProMemb  = $repositoryProMemb;
-        $this->storage            = $storage;
-        $this->filesystem         = $filesystem;
     }
 
     public function create(array $dados)
@@ -36,9 +30,7 @@ class ProjectService
         
     }
 
-    /**
-     * 
-     */
+
     public function update(array $dados, $id)
     {
          try{
@@ -52,36 +44,6 @@ class ProjectService
 
     }
 
-    public function addMemeber(array $dados)
-    {
-        try{
-            return $this->repositoryProMemb->create($dados);
-        }catch(ValidatorException $e){
-            return [
-                'error'    => true,
-                'message' => $e->getMessageBag()
-            ];
-        }
-    }
-
-    public function removeMember($id)
-    {
-        try{
-            return $this->repositoryProMemb->find($id)->delete($id);
-        }catch(ValidatorException $e){
-            return [
-                'error'    => true,
-                'message' => $e->getMessageBag()
-            ];
-        }
-    }
-
-
-    private function isMember($id)
-    {
-        $id_usu =  \Authorizer::getResourceOwnerId();
-        return $this->repository->hasMember($id, $id_usu);
-    }
 
     public function createFile(array $data)
     {
@@ -89,6 +51,27 @@ class ProjectService
         $projectFile = $project->files()->create($data);
 
         $this->storage->put($projectFile->id.".".$data['extension'], $this->filesystem->get($data['file']));
+    }
+
+    public function checkProjectOwner($id)
+    {
+        $id_usu =  \Authorizer::getResourceOwnerId();
+        return $this->repository->isOwner($id, $id_usu);
+    }
+
+    public function checkProjectMember($id)
+    {
+        $id_usu =  \Authorizer::getResourceOwnerId();
+        return $this->repository->hasMember($id, $id_usu);
+    }
+
+    public function checkProjectPermissions($id)
+    {
+        if($this->checkProjectOwner($id) || $this->checkProjectMember($id)){
+            return true;
+        }
+
+        return false;
     }
 
 
