@@ -46,6 +46,7 @@ class ProjectController extends Controller
 
     public function show($id)
     {
+        dd($id);
         
         if(!$this->service->checkProjectPermissions($id)){
             return ['error' => 'access_forbidden'];

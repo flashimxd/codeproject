@@ -15,6 +15,9 @@ app.provider('appConfig', function(){
                 {value: 3,   label: 'Concluído'}
             ]
         },
+        urls: {
+            projectFile: 'project/{{id}}/file/{{idFile}}'
+        },
         utils: {
             transformResponse: function(data, headers){
                 var headerContent = headers();
@@ -90,6 +93,12 @@ app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvide
             'templateUrl': 'build/views/project/list.html',
             'controller' : 'ProjectListController'
         })
+        /*
+        .when('/projects/:id',{
+            'templateUrl': 'build/views/project/show.html',
+            'controller' : 'ProjectShowController'
+        })
+        */
 
         .when('/projects/new',{
             'templateUrl': 'build/views/project/new.html',
@@ -107,27 +116,27 @@ app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvide
         })
 
         //Project note
-        .when('/project/:id/files',{
+        .when('/projects/:id/files',{
             'templateUrl': 'build/views/project-file/list.html',
             'controller' : 'ProjectNoteListController'
         })
 
-        .when('/project/:id/notes/:idfile/show',{
+        .when('/projects/:id/notes/:idfile/show',{
             'templateUrl': 'build/views/project-file/show.html',
             'controller' : 'ProjectNoteShowController'
         })
 
-        .when('/project/:id/files/new',{
+        .when('/projects/:id/files/new',{
             'templateUrl': 'build/views/project-file/new.html',
             'controller' : 'ProjectNoteNewController'
         })
 
-        .when('/project/:id/files/:idNote/edit',{
+        .when('/projects/:id/files/:idNote/edit',{
             'templateUrl': 'build/views/project-file/edit.html',
             'controller' : 'ProjectNoteEditController'
         })
 
-        .when('/project/:id/files/:idNote/remove',{
+        .when('/projects/:id/files/:idNote/remove',{
             'templateUrl': 'build/views/project-note/remove.html',
             'controller' : 'ProjectNoteRemoveController'
         })
@@ -135,22 +144,22 @@ app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvide
 
         /*Project file*/
         .when('/project/:id/files',{
-            'templateUrl': 'build/views/project-note/list.html',
+            'templateUrl': 'build/views/project-file/list.html',
             'controller' : 'ProjectFileListController'
         })
 
         .when('/project/:id/files/new',{
-            'templateUrl': 'build/views/project-note/new.html',
+            'templateUrl': 'build/views/project-file/new.html',
             'controller' : 'ProjectFileNewController'
         })
 
         .when('/project/:id/files/:idFile/edit',{
-            'templateUrl': 'build/views/project-note/edit.html',
+            'templateUrl': 'build/views/project-file/edit.html',
             'controller' : 'ProjectFileEditController'
         })
 
         .when('/project/:id/files/:idFile/remove',{
-            'templateUrl': 'build/views/project-note/remove.html',
+            'templateUrl': 'build/views/project-file/remove.html',
             'controller' : 'ProjectFileRemoveController'
         });
 

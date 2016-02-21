@@ -2,30 +2,41 @@
     <div class="row">
         <div class="col-md-8 col-md-offset-2">
             <div class="panel panel-default">
-                <div class="panel-heading">Cadastro de Notas.</div>
+                <div class="panel-heading">Cadastro de Arquivos.</div>
                 <div class="panel-body">
 
                     <form class="form-horizontal" name="formCadastro" role="form" method="POST"  ng-submit="save()">
 
-                        <div class="form-group" ng-class="{'has-error': !formCadastro.title.$valid && formCadastro.title.$touched}">
-                            <label class="col-md-4 control-label">Title</label>
+                        <div class="form-group" ng-class="{'has-error': !formCadastro.name.$valid && formCadastro.name.$touched}">
+                            <label class="col-md-4 control-label">name</label>
                             <div class="col-md-6">
-                                <input type="text" class="form-control" name="title" ng-model="projectNote.title" required>
-                                <div class="help-block" ng-messages="formCadastro.title.$error" ng-show="formCadastro.title.$touched">
+                                <input type="text" class="form-control" name="name" ng-model="projectFile.name" required>
+                                <div class="help-block" ng-messages="formCadastro.name.$error" ng-show="formCadastro.name.$touched">
                                     <div ng-message="required"> Campo obrigatorio</div>
                                 </div>
                             </div>
                         </div>
 
 
-                        <div class="form-group" ng-class="{'has-error': !formCadastro.note.$valid && formCadastro.note.$touched}">
-                            <label class="col-md-4 control-label">Note</label>
+                        <div class="form-group" ng-class="{'has-error': !formCadastro.description.$valid && formCadastro.description.$touched}">
+                            <label class="col-md-4 control-label">description</label>
                             <div class="col-md-6">
-                                <textarea name="note" ng-model="projectNote.note" class="form-control"></textarea>
+                                <textarea name="description" ng-model="projectFile.description" class="form-control"></textarea>
                             </div>
                         </div>
 
+                        <div class="form-group" ng-class="{'has-error': !formCadastro.file.$valid && formCadastro.file.$touched}">
+                            <label class="col-md-4 control-label">File</label>
+                            <div class="col-md-6">
+                               
+                                <div class="btn btn-info" ngf-select ng-model="projectFile.file" name="file">Select</div>
 
+
+                                <div class="help-block" ng-messages="formCadastro.file.$error" ng-show="formCadastro.file.$touched">
+                                    <div ng-message="required"> Campo obrigatorio</div>
+                                </div>
+                            </div>
+                        </div>
 
                         <div class="form-group">
                             <div class="col-md-6 col-md-offset-4">

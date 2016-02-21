@@ -105,11 +105,20 @@
 <script src="{{asset('build/js/controllers/project-note/projectNoteRemove.js')}}"></script>
 <script src="{{asset('build/js/controllers/project-note/projectNoteShow.js')}}"></script>
 
+<!-- project notes-->
+<script src="{{asset('build/js/controllers/project-file/projectFileList.js')}}"></script>
+<script src="{{asset('build/js/controllers/project-file/projectFileNew.js')}}"></script>
+<script src="{{asset('build/js/controllers/project-file/projectFileEdit.js')}}"></script>
+<script src="{{asset('build/js/controllers/project-file/projectFileRemove.js')}}"></script>
+
+
 <!-- Services -->
 <script src="{{asset('build/js/services/client.js')}}"></script>
 <script src="{{asset('build/js/services/projectNote.js')}}"></script>
 <script src="{{asset('build/js/services/user.js')}}"></script>
 <script src="{{asset('build/js/services/project.js')}}"></script>
+<script src="{{asset('build/js/services/url.js')}}"></script>
+
 
 <!-- filters -->
 <script src="{{asset('build/js/filters/date-br.js')}}"></script>
