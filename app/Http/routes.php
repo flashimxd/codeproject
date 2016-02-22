@@ -28,7 +28,8 @@ Route::group(['middleware' => 'oauth'], function(){
 
 	Route::group(['prefix' => 'project'], function(){
 
-		
+		//Route::get('{id}', 'ProjectController@show');
+
 		Route::get('{id}/task', 'ProjectTaskController@index'); 
 
 		Route::get('{id}/members', 'ProjectMembersController@index');

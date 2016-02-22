@@ -1,7 +1,7 @@
 <?php
 namespace codeproject\Services;
-use codeproject\Repositories\ProjectNoteRepository;
 use codeproject\Repositories\ProjectRepository;
+use codeproject\Repositories\ProjectFileRepository;
 use codeproject\Validators\ProjectFileValidator;
 use Prettus\Validator\Exceptions\ValidatorException;
 use Illuminate\Contracts\Filesystem\Factory as Storage;
@@ -25,12 +25,14 @@ class ProjectFileService
         $this->filesystem           = $filesystem;
     }
 
-    public function create(array $dados)
-    { 
+    public function create(array $data)
+    {
+       // dd($data);
         try{
-            $this->validator->with($dados)->passesOrFail();
+            $this->validator->with($data)->passesOrFail();
 
-            $project = $this->repository->skipPresenter()->find($data['project_id']);
+            $project = $this->projectRepository->skipPresenter()->find($data['project_id']);
+           // dd($project);
             $projectFile = $project->files()->create($data);
             $this->storage->put($projectFile->id.".".$data['extension'], $this->filesystem->get($data['file']));
 

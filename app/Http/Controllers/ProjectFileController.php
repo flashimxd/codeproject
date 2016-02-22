@@ -35,11 +35,12 @@ class ProjectFileController extends Controller
      */
     public function store(Request $request)
     {
+
         $file = $request->file('file');
         $extension = $file->getClientOriginalExtension();
 
         $data = [   'file' => $file, 'extension' => $extension, 'name' => $request->name, 
-                    'project_id' => $request->project_id, 'description' => $request->description
+                    'project_id' => (int)$request->project_id, 'description' => $request->description
                 ];
 
         $this->service->create($data);

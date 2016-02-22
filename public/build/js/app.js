@@ -16,7 +16,7 @@ app.provider('appConfig', function(){
             ]
         },
         urls: {
-            projectFile: 'project/{{id}}/file/{{idFile}}'
+            projectFile: '/project/{{id}}/file/{{idFile}}'
         },
         utils: {
             transformResponse: function(data, headers){
@@ -93,6 +93,7 @@ app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvide
             'templateUrl': 'build/views/project/list.html',
             'controller' : 'ProjectListController'
         })
+
         /*
         .when('/projects/:id',{
             'templateUrl': 'build/views/project/show.html',
@@ -143,22 +144,22 @@ app.config(['$routeProvider', '$httpProvider','OAuthProvider','OAuthTokenProvide
 
 
         /*Project file*/
-        .when('/project/:id/files',{
+        .when('/projects/:id/files',{
             'templateUrl': 'build/views/project-file/list.html',
             'controller' : 'ProjectFileListController'
         })
 
-        .when('/project/:id/files/new',{
+        .when('/projects/:id/files/new',{
             'templateUrl': 'build/views/project-file/new.html',
             'controller' : 'ProjectFileNewController'
         })
 
-        .when('/project/:id/files/:idFile/edit',{
+        .when('/projects/:id/files/:idFile/edit',{
             'templateUrl': 'build/views/project-file/edit.html',
             'controller' : 'ProjectFileEditController'
         })
 
-        .when('/project/:id/files/:idFile/remove',{
+        .when('/projects/:id/files/:idFile/remove',{
             'templateUrl': 'build/views/project-file/remove.html',
             'controller' : 'ProjectFileRemoveController'
         });
